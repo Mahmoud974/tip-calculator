@@ -12,15 +12,6 @@ export default function TipCalculator() {
     setTip(percentage);
   };
 
-  const handleCalculate = () => {
-    if (bill && tip && people) {
-      const calculatedTip = (bill * (tip / 100)) / people;
-      const calculatedTotal = bill / people + calculatedTip;
-      setTipAmount(calculatedTip.toFixed(2));
-      setTotal(calculatedTotal.toFixed(2));
-    }
-  };
-
   const handleReset = () => {
     setBill("");
     setTip(null);
@@ -62,7 +53,7 @@ export default function TipCalculator() {
                     onClick={() => handleTipClick(percentage)}
                     className={`p-2 rounded-md font-bold ${
                       tip === percentage
-                        ? "bg-teal-500 text-white"
+                        ? "bg-teal-500 text-green-950"
                         : "bg-teal-900 text-white"
                     }`}
                   >
@@ -90,11 +81,19 @@ export default function TipCalculator() {
                 className="w-full p-2 border rounded-md text-right"
               />
             </div>
+
+            {/* Optional: Button to calculate */}
+            {/* <button
+              onClick={handleCalculate}
+              className="w-full bg-teal-500 text-green-950 p-2 rounded-md font-bold"
+            >
+              CALCULATE
+            </button> */}
           </div>
 
           {/* Section de droite - Résultats */}
           <div className="bg-teal-900 pt-10 text-white w-[20rem] p-6 rounded-lg flex flex-col justify-between">
-            <div className="">
+            <div>
               <div className="flex justify-between mb-8">
                 <span className="text-xs font-bold">
                   Tip Amount <br />
@@ -117,7 +116,7 @@ export default function TipCalculator() {
 
             <button
               onClick={handleReset}
-              className="w-full bg-teal-500 text-green-800 p-2 rounded-md font-bold mt-auto"
+              className="w-full bg-teal-500 text-green-950 p-2 rounded-md font-bold mt-auto"
             >
               RESET
             </button>
