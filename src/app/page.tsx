@@ -43,7 +43,9 @@ export default function TipCalculator() {
   return (
     <main className="flex flex-col justify-center items-center h-screen p-4">
       <h1 className="text-center mb-10 font-bold text-gray-500 tracking-widest text-xl">
-        SPLITTER
+        SPLI
+        <br />
+        TTER
       </h1>
       <div className="bg-white md:flex-row flex-col p-8 rounded-xl max-w-3xl w-full flex gap-4">
         <div className="flex flex-col gap-4 w-full md:w-2/3">
