@@ -1,5 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { z } from "zod";
+
+const billSchema = z.number().positive();
+const peopleSchema = z.number().int().positive();
 
 export default function TipCalculator() {
   const [bill, setBill] = useState<number | "">("");
@@ -7,6 +11,22 @@ export default function TipCalculator() {
   const [people, setPeople] = useState<number | "">("");
   const [tipAmount, setTipAmount] = useState<string>("0.00");
   const [total, setTotal] = useState<string>("0.00");
+
+  useEffect(() => {
+    const billValid = billSchema.safeParse(bill);
+    const peopleValid = peopleSchema.safeParse(people);
+
+    if (billValid.success && tip !== null && peopleValid.success) {
+      const totalTip = (billValid.data * tip) / 100;
+      const amountPerPerson = totalTip / peopleValid.data;
+      const totalPerPerson = (billValid.data + totalTip) / peopleValid.data;
+      setTipAmount(amountPerPerson.toFixed(2));
+      setTotal(totalPerPerson.toFixed(2));
+    } else {
+      setTipAmount("0.00");
+      setTotal("0.00");
+    }
+  }, [bill, tip, people]);
 
   const handleTipClick = (percentage: number) => {
     setTip(percentage);
@@ -22,12 +42,13 @@ export default function TipCalculator() {
 
   return (
     <>
-      <h1 className="text-center text-gray-500 mb-8 tracking-widest">
-        SPLITTER
-      </h1>
-      <main className="flex justify-center items-center h-screen">
-        <div className="bg-white p-8 rounded-xl shadow-md max-w-3xl w-full flex gap-4">
-          {/* Section de gauche - Entrées */}
+      <main className="flex flex-col justify-center items-center h-screen">
+        <h1 className="text-center mb-10 font-bold text-gray-500  tracking-widest text-xl">
+          SPLI
+          <br />
+          TTER
+        </h1>
+        <div className="bg-white p-8 rounded-xl  max-w-3xl w-full flex gap-4">
           <div className="flex flex-col gap-4 w-2/3">
             <div className="mb-4">
               <label className="block text-gray-500 mb-1 text-xs font-bold">
@@ -38,6 +59,7 @@ export default function TipCalculator() {
                 value={bill}
                 onChange={(e) => setBill(parseFloat(e.target.value) || "")}
                 placeholder="0"
+                min="0.01"
                 className="w-full p-2 border rounded-md text-right"
               />
             </div>
@@ -63,7 +85,8 @@ export default function TipCalculator() {
                 <input
                   type="number"
                   placeholder="Custom"
-                  onChange={(e) => setTip(parseFloat(e.target.value))}
+                  min="0"
+                  onChange={(e) => setTip(parseFloat(e.target.value) || null)}
                   className="p-2 border rounded-md text-center"
                 />
               </div>
@@ -78,20 +101,12 @@ export default function TipCalculator() {
                 value={people}
                 onChange={(e) => setPeople(parseInt(e.target.value) || "")}
                 placeholder="0"
+                min="1"
                 className="w-full p-2 border rounded-md text-right"
               />
             </div>
-
-            {/* Optional: Button to calculate */}
-            {/* <button
-              onClick={handleCalculate}
-              className="w-full bg-teal-500 text-green-950 p-2 rounded-md font-bold"
-            >
-              CALCULATE
-            </button> */}
           </div>
 
-          {/* Section de droite - Résultats */}
           <div className="bg-teal-900 pt-10 text-white w-[20rem] p-6 rounded-lg flex flex-col justify-between">
             <div>
               <div className="flex justify-between mb-8">
