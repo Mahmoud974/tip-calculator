@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { z } from "zod";
+import { FaUser } from "react-icons/fa";
 
 const billSchema = z.number().positive();
 const peopleSchema = z.number().int().positive();
@@ -56,15 +57,18 @@ export default function TipCalculator() {
             >
               Bill
             </label>
-            <input
-              id="bill-input"
-              type="number"
-              value={bill}
-              onChange={(e) => setBill(parseFloat(e.target.value) || "")}
-              placeholder="0"
-              min="0.01"
-              className="w-full p-2 border rounded-md text-right focus:outline-none focus:ring-2 focus:ring-teal-500"
-            />
+            <div className="flex items-center border border-gray-300 rounded-md">
+              <span className="px-2 text-2xl text-gray-400">$</span>
+              <input
+                id="bill-input"
+                type="number"
+                value={bill}
+                onChange={(e) => setBill(parseFloat(e.target.value) || "")}
+                placeholder="0"
+                min="0.01"
+                className="w-full p-2 outline-none rounded-md text-right focus:ring-2 focus:ring-teal-500"
+              />
+            </div>
           </div>
 
           <div className="mb-4">
@@ -106,15 +110,20 @@ export default function TipCalculator() {
             >
               Number of People
             </label>
-            <input
-              id="people-input"
-              type="number"
-              value={people}
-              onChange={(e) => setPeople(parseInt(e.target.value) || "")}
-              placeholder="0"
-              min="1"
-              className="w-full p-2 border rounded-md text-right focus:outline-none focus:ring-2 focus:ring-teal-500"
-            />
+            <div className="flex items-center border border-gray-300 rounded-md">
+              <span className="px-2 text-gray-500">
+                <FaUser className="text-gray-300" />
+              </span>
+              <input
+                id="people-input"
+                type="number"
+                value={people}
+                onChange={(e) => setPeople(parseInt(e.target.value) || "")}
+                placeholder="0"
+                min="1"
+                className="w-full p-2 outline-none rounded-md text-right focus:ring-2 focus:ring-teal-500"
+              />
+            </div>
           </div>
         </div>
 
